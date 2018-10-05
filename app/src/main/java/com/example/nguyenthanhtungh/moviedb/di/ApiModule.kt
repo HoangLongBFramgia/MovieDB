@@ -1,6 +1,7 @@
-package com.example.nguyenthanhtungh.moviedb.network
+package com.example.nguyenthanhtungh.moviedb.di
 
 import com.example.nguyenthanhtungh.moviedb.BuildConfig
+import com.example.nguyenthanhtungh.moviedb.data.remote.ApiService
 import com.example.nguyenthanhtungh.moviedb.util.API_KEY_PARAM
 import com.example.nguyenthanhtungh.moviedb.util.BASE_URL
 import com.example.nguyenthanhtungh.moviedb.util.TIME_OUT
@@ -13,7 +14,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiClient {
+object ApiModule {
 
     fun initOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
