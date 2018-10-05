@@ -1,6 +1,7 @@
 package com.example.nguyenthanhtungh.moviedb.network
 
 import com.example.nguyenthanhtungh.moviedb.BuildConfig
+import com.example.nguyenthanhtungh.moviedb.util.API_KEY_PARAM
 import com.example.nguyenthanhtungh.moviedb.util.BASE_URL
 import com.example.nguyenthanhtungh.moviedb.util.TIME_OUT
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -36,7 +37,7 @@ object ApiClient {
         return Interceptor { chain ->
             val original = chain.request()
             val newUrl = original.url().newBuilder()
-                    .addQueryParameter("api_key", BuildConfig.API_KEY)
+                    .addQueryParameter(API_KEY_PARAM, BuildConfig.API_KEY)
                     .build()
             val requestBuilder = original.newBuilder()
                     .url(newUrl)

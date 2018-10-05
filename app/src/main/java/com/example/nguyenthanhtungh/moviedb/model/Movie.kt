@@ -1,31 +1,35 @@
 package com.example.nguyenthanhtungh.moviedb.model
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Movie(
+        @SerializedName("vote_count")
         val vote_count: Int? = 0,
+        @SerializedName("id")
         val id: String? = null,
-        val video: Boolean = false,
-        val vote_average: Double = 0.0,
+        @SerializedName("video")
+        val video: Boolean? = false,
+        @SerializedName("vote_average")
+        val vote_average: Double? = 0.0,
+        @SerializedName("title")
         val title: String? = null,
-        val popularity: Double = 0.0,
+        @SerializedName("popularity")
+        val popularity: Double? = 0.0,
+        @SerializedName("poster_path")
         val poster_path: String? = null,
+        @SerializedName("original_language")
         val original_language: String? = null,
+        @SerializedName("original_title")
         val original_title: String? = null,
+        @SerializedName("backdrop_path")
         val backdrop_path: String? = null,
-        val adult: Boolean = false,
+        @SerializedName("adult")
+        val adult: Boolean? = false,
+        @SerializedName("overview")
         val overview: String? = null,
-        val release_date: String? = null,
-        val belongs_to_collection: Boolean? = null,
-        val budget: Int? = 0,
-        val homepage: String? = null,
-        val imdb_id: String? = null,
-        val revenue: Int = 0,
-        val runtime: Int = 0,
-        val status: String? = null,
-        val tagline: String? = null
+        @SerializedName("release_date")
+        val release_date: String? = null
 ) : Parcelable
