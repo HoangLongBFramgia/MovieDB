@@ -1,6 +1,6 @@
-package com.example.nguyenthanhtungh.moviedb.network
+package com.example.nguyenthanhtungh.moviedb.data.remote
 
-import com.example.nguyenthanhtungh.moviedb.model.Collection
+import com.example.nguyenthanhtungh.moviedb.data.model.Collection
 import com.example.nguyenthanhtungh.moviedb.util.API_QUERY_PARAM
 import com.example.nguyenthanhtungh.moviedb.util.PARAM_PAGE
 import io.reactivex.Single

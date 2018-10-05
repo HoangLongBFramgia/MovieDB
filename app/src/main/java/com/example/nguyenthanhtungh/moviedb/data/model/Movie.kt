@@ -1,15 +1,19 @@
-package com.example.nguyenthanhtungh.moviedb.model
+package com.example.nguyenthanhtungh.moviedb.data.model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
+@Entity(tableName = "movie")
 class Movie(
-        @SerializedName("vote_count")
-        val vote_count: Int? = 0,
+        @PrimaryKey(autoGenerate = false)
         @SerializedName("id")
         val id: String? = null,
+        @SerializedName("vote_count")
+        val vote_count: Int? = 0,
         @SerializedName("video")
         val video: Boolean? = false,
         @SerializedName("vote_average")
@@ -31,5 +35,6 @@ class Movie(
         @SerializedName("overview")
         val overview: String? = null,
         @SerializedName("release_date")
-        val release_date: String? = null
+        val release_date: String? = null,
+        var is_favourite: Boolean? = false
 ) : Parcelable
