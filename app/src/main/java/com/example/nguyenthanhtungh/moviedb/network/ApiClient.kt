@@ -1,7 +1,11 @@
 package com.example.nguyenthanhtungh.moviedb.network
 
+import com.example.nguyenthanhtungh.moviedb.BuildConfig
+import com.example.nguyenthanhtungh.moviedb.util.API_KEY_PARAM
 import com.example.nguyenthanhtungh.moviedb.util.BASE_URL
+import com.example.nguyenthanhtungh.moviedb.util.TIME_OUT
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import okhttp3.Interceptor
 
 import java.util.concurrent.TimeUnit
 
@@ -10,34 +14,39 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private var sRetrofit: Retrofit? = null
-    private var sOkHttpClient: OkHttpClient? = null
 
-    val client: Retrofit?
-        get() {
-            if (sOkHttpClient == null) {
-                initOkHttpClient()
-            }
-            if (sRetrofit == null) {
-                initRetrofit()
-            }
-            return sRetrofit
-        }
+    fun initOkHttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+                .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+                .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+                .addInterceptor(createHeaderInterceptor())
+        return builder.build()
+    }
 
-    private fun initRetrofit() {
-        sRetrofit = Retrofit.Builder()
+    fun initRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(sOkHttpClient!!)
+                .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
     }
 
-    private fun initOkHttpClient() {
-        val builder = OkHttpClient.Builder()
-                .readTimeout(12000, TimeUnit.MILLISECONDS)
-                .connectTimeout(12000, TimeUnit.MILLISECONDS)
-                .writeTimeout(12000, TimeUnit.MILLISECONDS)
-        sOkHttpClient = builder.build()
+    private fun createHeaderInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val original = chain.request()
+            val newUrl = original.url().newBuilder()
+                    .addQueryParameter(API_KEY_PARAM, BuildConfig.API_KEY)
+                    .build()
+            val requestBuilder = original.newBuilder()
+                    .url(newUrl)
+                    .build()
+            chain.proceed(requestBuilder)
+        }
+    }
+
+    fun getApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 }
