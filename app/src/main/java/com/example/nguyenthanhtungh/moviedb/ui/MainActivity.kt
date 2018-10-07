@@ -1,7 +1,7 @@
-package com.example.nguyenthanhtungh.moviedb.ui.main
+package com.example.nguyenthanhtungh.moviedb.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.nguyenthanhtungh.moviedb.R
 
 class MainActivity : AppCompatActivity() {
