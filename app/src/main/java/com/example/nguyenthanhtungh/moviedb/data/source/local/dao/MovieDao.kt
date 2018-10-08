@@ -1,4 +1,4 @@
-package com.example.nguyenthanhtungh.moviedb.data.local.dao
+package com.example.nguyenthanhtungh.moviedb.data.source.local.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
