@@ -6,8 +6,8 @@ import com.example.nguyenthanhtungh.moviedb.data.source.remote.MovieRemoteDataSo
 import com.example.nguyenthanhtungh.moviedb.data.source.remote.response.CollectionResponse
 import io.reactivex.Single
 
-class MovieRepository(private val local: MovieLocalDataSource,
-                      private val remote: MovieRemoteDataSource)
+class MovieRepository(private val local: MovieDataSource.LocalDataSource,
+                      private val remote: MovieDataSource.RemoteDataSource)
     : MovieDataSource.LocalDataSource, MovieDataSource.RemoteDataSource {
     override fun getListNowPlaying(page: Int): Single<CollectionResponse> {
         return remote.getListNowPlaying(page)

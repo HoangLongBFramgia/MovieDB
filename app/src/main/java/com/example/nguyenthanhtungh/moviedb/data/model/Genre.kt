@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
 class Genre(
         @PrimaryKey(autoGenerate = false)
         @SerializedName("id")
-        var id: String? = null,
+        var id: String,
         @SerializedName("name")
         var name: String? = null
 ) : Parcelable
