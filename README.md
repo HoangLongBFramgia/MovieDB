@@ -1,2 +1,2 @@
 # MovieDB
-# Insert your key to gradle.properties
+Insert your key to gradle.properties
