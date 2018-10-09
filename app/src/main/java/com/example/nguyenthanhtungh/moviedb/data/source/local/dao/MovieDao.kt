@@ -7,15 +7,15 @@ import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.example.nguyenthanhtungh.moviedb.data.model.Movie
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movie")
-    fun getMovieList(): Maybe<List<Movie>>
+    fun getMovieList(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie WHERE movie.id = :id")
-    fun getMovie(id: String): Maybe<Movie>
+    fun getMovie(id: String): Single<Movie>
 
     @Insert(onConflict = IGNORE)
     fun insert(movie: Movie)

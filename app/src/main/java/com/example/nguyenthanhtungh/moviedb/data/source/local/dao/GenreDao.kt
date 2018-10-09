@@ -2,15 +2,15 @@ package com.example.nguyenthanhtungh.moviedb.data.source.local.dao
 
 import androidx.room.*
 import com.example.nguyenthanhtungh.moviedb.data.model.Genre
-import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface GenreDao {
     @Query("SELECT * FROM genre")
-    fun getGenreList(): Maybe<List<Genre>>
+    fun getGenreList(): Single<List<Genre>>
 
     @Query("SELECT * FROM genre WHERE genre.id = :id")
-    fun getGenre(id: String): Maybe<Genre>
+    fun getGenre(id: String): Single<Genre>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(genre: Genre)
