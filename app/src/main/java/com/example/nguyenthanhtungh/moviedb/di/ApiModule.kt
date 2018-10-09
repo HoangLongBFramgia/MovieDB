@@ -11,43 +11,49 @@ import okhttp3.Interceptor
 import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient
+import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiModule {
+val apiModule = module(override = true) {
+    single { createHeaderInterceptor() }
+    single { initOkHttpClient(get()) }
+    single { initRetrofit(get()) }
+    single { getApiService(get()) }
+}
 
-    fun initOkHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-                .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
-                .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
-                .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
-                .addInterceptor(createHeaderInterceptor())
-        return builder.build()
-    }
+fun initOkHttpClient(header: Interceptor): OkHttpClient {
+    val builder = OkHttpClient.Builder()
+            .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
+            .addInterceptor(header)
+    return builder.build()
+}
 
-    fun initRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+fun initRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+}
+
+private fun createHeaderInterceptor(): Interceptor {
+    return Interceptor { chain ->
+        val original = chain.request()
+        val newUrl = original.url().newBuilder()
+                .addQueryParameter(API_KEY_PARAM, BuildConfig.API_KEY)
                 .build()
-    }
-
-    private fun createHeaderInterceptor(): Interceptor {
-        return Interceptor { chain ->
-            val original = chain.request()
-            val newUrl = original.url().newBuilder()
-                    .addQueryParameter(API_KEY_PARAM, BuildConfig.API_KEY)
-                    .build()
-            val requestBuilder = original.newBuilder()
-                    .url(newUrl)
-                    .build()
-            chain.proceed(requestBuilder)
-        }
-    }
-
-    fun getApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+        val requestBuilder = original.newBuilder()
+                .url(newUrl)
+                .build()
+        chain.proceed(requestBuilder)
     }
 }
+
+fun getApiService(retrofit: Retrofit): ApiService {
+    return retrofit.create(ApiService::class.java)
+}
+

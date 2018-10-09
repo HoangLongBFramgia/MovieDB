@@ -1,11 +1,15 @@
 package com.example.nguyenthanhtungh.moviedb.data.source
 
+import com.example.nguyenthanhtungh.moviedb.data.model.Movie
 import com.example.nguyenthanhtungh.moviedb.data.source.remote.response.CollectionResponse
 import io.reactivex.Single
 
 interface MovieDataSource {
     interface LocalDataSource {
-        //todo
+        fun getListMoviesLocal(): Single<List<Movie>>
+        fun insertListMoviesLocal(list: List<Movie>)
+        fun updateListMoviesLocal(movie: Movie)
+        fun deleteMovieLocal(id: String)
     }
 
     interface RemoteDataSource {
