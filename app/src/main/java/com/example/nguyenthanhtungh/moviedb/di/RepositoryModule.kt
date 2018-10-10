@@ -33,13 +33,13 @@ fun createGenreDao(appDatabase: AppDataBase) = appDatabase.genreDao()
 
 fun createMovieDao(appDatabase: AppDataBase) = appDatabase.movieDao()
 
-fun createGenreLocalDataSource(genreDao: GenreDao) = GenreLocalDataSource(genreDao)
+fun createGenreLocalDataSource(genreDao: GenreDao): GenreDataSource.LocalDataSource = GenreLocalDataSource(genreDao)
 
-fun createGenreRemoteDataSource(apiService: ApiService) = GenreRemoteDataSource(apiService)
+fun createGenreRemoteDataSource(apiService: ApiService): GenreDataSource.RemoteDataSource = GenreRemoteDataSource(apiService)
 
-fun createMovieLocalDataSource(movieDao: MovieDao) = MovieLocalDataSource(movieDao)
+fun createMovieLocalDataSource(movieDao: MovieDao): MovieDataSource.LocalDataSource = MovieLocalDataSource(movieDao)
 
-fun createMovieRemoteDataSource(apiService: ApiService) = MovieRemoteDataSource(apiService)
+fun createMovieRemoteDataSource(apiService: ApiService): MovieDataSource.RemoteDataSource = MovieRemoteDataSource(apiService)
 
 fun createGenreRepository(local: GenreDataSource.LocalDataSource,
                           remote: GenreDataSource.RemoteDataSource) = GenreRepository(local, remote)
