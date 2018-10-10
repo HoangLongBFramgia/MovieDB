@@ -16,18 +16,12 @@ abstract class AppDataBase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
 
     companion object {
-        private lateinit var INSTANCE: AppDataBase
-        const val DB_NAME: String = "movie_db"
+        private const val DB_NAME: String = "movie_db"
 
-        open fun getAppDatabase(context: Context): AppDataBase {
-            if (INSTANCE == null) {
-                synchronized(AppDataBase::class.java) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                            AppDataBase::class.java, DB_NAME)
-                            .build()
-                }
-            }
-            return INSTANCE
+        fun getAppDatabase(context: Context): AppDataBase {
+            return Room.databaseBuilder(context.applicationContext,
+                    AppDataBase::class.java, DB_NAME)
+                    .build()
         }
     }
 }
