@@ -6,11 +6,12 @@ import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.base.BaseActivity
 import com.example.nguyenthanhtungh.moviedb.ui.favourite.FavouriteFragment
 import com.example.nguyenthanhtungh.moviedb.ui.home.HomeFragment
+import com.example.nguyenthanhtungh.moviedb.util.FAVOURITE_FRAGMENT
 import com.example.nguyenthanhtungh.moviedb.util.HOME_FRAGMENT
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity<MainViewModel>(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +22,8 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
-            R.id.item_main -> replaceFragment(HomeFragment.newInstance(), R.id.frame_layout, "HomeFragment", false)
-            R.id.item_favorite -> replaceFragment(FavouriteFragment.newInstance(), R.id.frame_layout, "HomeFragment", false)
+            R.id.item_home -> replaceFragment(HomeFragment.newInstance(), R.id.frame_layout, HOME_FRAGMENT, false)
+            R.id.item_favorite -> replaceFragment(FavouriteFragment.newInstance(), R.id.frame_layout, FAVOURITE_FRAGMENT, false)
         }
         return true
     }
