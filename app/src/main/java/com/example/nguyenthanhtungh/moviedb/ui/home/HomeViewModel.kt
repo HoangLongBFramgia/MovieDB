@@ -10,14 +10,15 @@ import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel(private val genreRepository: GenreRepository,
                     private val movieRepository: MovieRepository) : BaseViewModel() {
-    val isLoading = MutableLiveData<Boolean>().apply { value = true }
+    val isLoading = MutableLiveData<Boolean>()
     val listDiscover = MutableLiveData<List<Movie>>()
 
-    fun getListDiscoverMovie() {
-        movieRepository.getListDiscover(1)
+    fun getListDiscoverMovie(page: Int) {
+        isLoading.value = true
+        movieRepository.getListDiscover(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doFinally { isLoading.value = false }
+                .doAfterTerminate { isLoading.value = false }
                 .subscribe { items ->
                     listDiscover.value = items.listMovie
                 }

@@ -10,6 +10,7 @@ import com.example.nguyenthanhtungh.moviedb.R
 class FavouriteFragment() : Fragment() {
 
     companion object {
+        const val TAG = "FavouriteFragment"
         fun newInstance() = FavouriteFragment()
     }
 

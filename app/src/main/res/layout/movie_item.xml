@@ -11,11 +11,6 @@
 
         </variable>
 
-        <variable
-            name="click"
-            type="com.example.nguyenthanhtungh.moviedb.ui.home.HandleItemClick">
-
-        </variable>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -24,8 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="@{()-> click.onMovieClick(movie)}">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/movie_item_image"
@@ -45,7 +39,7 @@
                 android:autoSizeMinTextSize="@dimen/sp_12"
                 android:autoSizeTextType="uniform"
                 android:ellipsize="end"
-                android:gravity="center_horizontal|center_vertical"
+                android:gravity="center"
                 android:maxLines="1"
                 android:text="@{movie.title}"
                 android:textAllCaps="false"

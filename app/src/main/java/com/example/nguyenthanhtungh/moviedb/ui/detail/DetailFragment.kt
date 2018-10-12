@@ -1,4 +1,4 @@
-package com.example.nguyenthanhtungh.moviedb.ui.favourite
+package com.example.nguyenthanhtungh.moviedb.ui.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.example.nguyenthanhtungh.moviedb.R
 
 class DetailFragment() : Fragment() {
-
     companion object {
+        const val TAG = "DetailFragment"
         fun newInstance() = DetailFragment()
     }
 

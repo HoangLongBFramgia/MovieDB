@@ -1,4 +1,4 @@
-package com.example.nguyenthanhtungh.moviedb.ui.favourite
+package com.example.nguyenthanhtungh.moviedb.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import com.example.nguyenthanhtungh.moviedb.R
 class SearchFragment() : Fragment() {
 
     companion object {
+        const val TAG = "SearchFragment"
         fun newInstance() = SearchFragment()
     }
 
