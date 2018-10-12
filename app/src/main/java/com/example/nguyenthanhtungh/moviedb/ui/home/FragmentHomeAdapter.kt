@@ -8,8 +8,7 @@ import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.data.model.Movie
 import com.example.nguyenthanhtungh.moviedb.databinding.MovieItemBinding
 
-
-class FragmentHomeAdapter(var listMovies: List<Movie>)
+class FragmentHomeAdapter(var listener: OnItemMovieClick, var listMovies: List<Movie>)
     : RecyclerView.Adapter<FragmentHomeAdapter.HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -17,6 +16,7 @@ class FragmentHomeAdapter(var listMovies: List<Movie>)
                 LayoutInflater.from(parent.context),
                 R.layout.movie_item,
                 parent, false)
+        itemBinding.click = HandleItemClick(listener)
         return HomeViewHolder(itemBinding)
     }
 

@@ -10,6 +10,12 @@
             type="com.example.nguyenthanhtungh.moviedb.data.model.Movie">
 
         </variable>
+
+        <variable
+            name="click"
+            type="com.example.nguyenthanhtungh.moviedb.ui.home.HandleItemClick">
+
+        </variable>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -19,7 +25,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/dp_8">
+            android:onClick="@{()-> click.onMovieClick(movie)}">
 
             <ImageView
                 android:id="@+id/movie_item_image"
