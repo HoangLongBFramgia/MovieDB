@@ -56,4 +56,3 @@ private fun createHeaderInterceptor(): Interceptor {
 fun getApiService(retrofit: Retrofit): ApiService {
     return retrofit.create(ApiService::class.java)
 }
-

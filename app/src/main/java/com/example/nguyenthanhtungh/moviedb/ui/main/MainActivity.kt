@@ -10,8 +10,11 @@ import com.example.nguyenthanhtungh.moviedb.util.FAVOURITE_FRAGMENT
 import com.example.nguyenthanhtungh.moviedb.util.HOME_FRAGMENT
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<MainViewModel>(), BottomNavigationView.OnNavigationItemSelectedListener {
+
+    override val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

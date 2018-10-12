@@ -46,4 +46,3 @@ fun createGenreRepository(local: GenreDataSource.LocalDataSource,
 
 fun createMovieRepository(local: MovieDataSource.LocalDataSource,
                           remote: MovieDataSource.RemoteDataSource) = MovieRepository(local, remote)
-

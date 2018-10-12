@@ -6,6 +6,7 @@ const val API_KEY_PARAM = "api_key"
 const val API_QUERY_PARAM = "query"
 const val PARAM_PAGE = "page"
 const val TIME_OUT = 12000L
+const val SPAN_COUNT = 2
 
 const val POPULAR = "popular"
 const val TOP_RATE = "toprate"
