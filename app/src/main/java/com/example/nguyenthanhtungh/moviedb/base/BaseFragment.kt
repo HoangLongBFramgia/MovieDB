@@ -14,6 +14,8 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
     abstract val viewModel: ViewModel
     abstract val layoutId: Int
 
+    abstract fun initComponent(viewDataBinding: ViewBinding)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         viewBinding.apply {
@@ -25,6 +27,4 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding, ViewModel : BaseViewM
         }
         return viewBinding.root
     }
-
-    abstract fun initComponent(viewDataBinding: ViewBinding)
 }

@@ -1,4 +1,4 @@
-package com.example.nguyenthanhtungh.moviedb.ui.favourite
+package com.example.nguyenthanhtungh.moviedb.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.nguyenthanhtungh.moviedb.R
 
-class FavouriteFragment() : Fragment() {
+class SearchFragment() : Fragment() {
 
     companion object {
-        const val TAG = "FavouriteFragment"
-        fun newInstance() = FavouriteFragment()
+        const val TAG = "SearchFragment"
+        fun newInstance() = SearchFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 }

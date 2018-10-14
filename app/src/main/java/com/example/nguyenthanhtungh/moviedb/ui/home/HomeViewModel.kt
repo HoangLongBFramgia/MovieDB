@@ -1,6 +1,26 @@
 package com.example.nguyenthanhtungh.moviedb.ui.home
 
+import androidx.lifecycle.MutableLiveData
 import com.example.nguyenthanhtungh.moviedb.base.BaseViewModel
+import com.example.nguyenthanhtungh.moviedb.data.model.Movie
+import com.example.nguyenthanhtungh.moviedb.data.repository.GenreRepository
+import com.example.nguyenthanhtungh.moviedb.data.repository.MovieRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel() : BaseViewModel() {
+class HomeViewModel(private val genreRepository: GenreRepository,
+                    private val movieRepository: MovieRepository) : BaseViewModel() {
+    val isLoading = MutableLiveData<Boolean>()
+    val listDiscover = MutableLiveData<List<Movie>>()
+
+    fun getListDiscoverMovie(page: Int) {
+        isLoading.value = true
+        movieRepository.getListDiscover(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate { isLoading.value = false }
+                .subscribe { items ->
+                    listDiscover.value = items.listMovie
+                }
+    }
 }
