@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.nguyenthanhtungh.moviedb.BR
 import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.base.BaseFragment
+import com.example.nguyenthanhtungh.moviedb.base.EndlessScrollListener
 import com.example.nguyenthanhtungh.moviedb.base.RecyclerItemDecoration
 import com.example.nguyenthanhtungh.moviedb.data.model.Movie
 import com.example.nguyenthanhtungh.moviedb.databinding.FragmentHomeBinding
@@ -14,6 +15,7 @@ import com.example.nguyenthanhtungh.moviedb.util.SPAN_COUNT
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+
     companion object {
         const val TAG = "HomeFragment"
         fun newInstance() = HomeFragment()
@@ -29,24 +31,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         )
 
         val decoration = RecyclerItemDecoration(ITEM_DECORATION)
+        val endlessScrollListener = EndlessScrollListener { viewModel.onLoadMore() }
 
         viewDataBinding.apply {
             recyclerHome.apply {
                 adapter = fragmentHomeAdapter
                 layoutManager = GridLayoutManager(context, SPAN_COUNT)
                 addItemDecoration(decoration)
+                addOnScrollListener(endlessScrollListener)
             }
         }
         viewModel.apply {
-            listDiscover.observe(this@HomeFragment, Observer {
+            listDiscoverMovie.observe(this@HomeFragment, Observer {
                 fragmentHomeAdapter.submitList(it)
             })
-            getListDiscoverMovie(1)
+            firstLoad()
         }
     }
 
     private fun goToDetailFragment(movie: Movie) {
         //todo
-        Toast.makeText(activity, TAG,Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, TAG, Toast.LENGTH_SHORT).show()
     }
 }
