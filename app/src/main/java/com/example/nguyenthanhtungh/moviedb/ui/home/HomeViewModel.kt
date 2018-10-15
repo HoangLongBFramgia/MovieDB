@@ -16,7 +16,7 @@ class HomeViewModel(val genreRepository: GenreRepository,
     //
     val loadError = MutableLiveData<String>()
     val listDiscoverMovie = MutableLiveData<List<Movie>>()
-    var currentPage = MutableLiveData<Int>().apply { value = 0 }
+    var currentPage = 0
 
     fun loadListMovie(page: Int) {
         addDisposable(
@@ -49,11 +49,11 @@ class HomeViewModel(val genreRepository: GenreRepository,
 
     fun onLoadMore() {
         isLoadMore.value = true
-        loadListMovie(currentPage.value?.plus(1) ?: 1)
+        loadListMovie(currentPage + 1)
     }
 
     private fun onLoadSuccess(page: Int, items: List<Movie>?) {
-        currentPage.value = page
+        currentPage = page
 
         if (isRefresh.value == true || isLoading.value == true) {
             listDiscoverMovie.value = items
@@ -76,6 +76,6 @@ class HomeViewModel(val genreRepository: GenreRepository,
         isLoadMore.value = false
         isLoading.value = false
         isRefresh.value = false
-        loadError.value = throwable.toString()
+        loadError.value = throwable.message
     }
 }

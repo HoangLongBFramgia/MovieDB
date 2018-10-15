@@ -52,9 +52,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
             })
             firstLoad()
 
-            isLoading.observe(this@HomeFragment, Observer {
-            })
-
             isRefresh.observe(this@HomeFragment, Observer {
                 viewBinding.swipeLayout.apply { isRefreshing = it == true }
             })
