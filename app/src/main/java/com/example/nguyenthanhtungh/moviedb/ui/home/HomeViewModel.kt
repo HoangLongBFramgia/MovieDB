@@ -8,19 +8,74 @@ import com.example.nguyenthanhtungh.moviedb.data.repository.MovieRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class HomeViewModel(private val genreRepository: GenreRepository,
-                    private val movieRepository: MovieRepository) : BaseViewModel() {
+class HomeViewModel(val genreRepository: GenreRepository,
+                    val movieRepository: MovieRepository) : BaseViewModel() {
     val isLoading = MutableLiveData<Boolean>()
-    val listDiscover = MutableLiveData<List<Movie>>()
+    val isRefresh = MutableLiveData<Boolean>()
+    val isLoadMore = MutableLiveData<Boolean>()
+    //
+    val loadError = MutableLiveData<String>()
+    val listDiscoverMovie = MutableLiveData<List<Movie>>()
+    var currentPage = 0
 
-    fun getListDiscoverMovie(page: Int) {
+    fun loadListMovie(page: Int) {
+        addDisposable(
+                movieRepository.getListDiscover(page)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally {
+                            isLoading.value = false
+                            isRefresh.value = false
+                            isLoadMore.value = false
+                        }
+                        .subscribe({
+                            onLoadSuccess(page, it.listMovie)
+                        }, {
+                            onLoadFail(it)
+                        }
+                        )
+        )
+    }
+
+    fun firstLoad() {
         isLoading.value = true
-        movieRepository.getListDiscover(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate { isLoading.value = false }
-                .subscribe { items ->
-                    listDiscover.value = items.listMovie
-                }
+        loadListMovie(1)
+    }
+
+    fun refreshData() {
+        isRefresh.value = true
+        loadListMovie(1)
+    }
+
+    fun onLoadMore() {
+        isLoadMore.value = true
+        loadListMovie(currentPage + 1)
+    }
+
+    private fun onLoadSuccess(page: Int, items: List<Movie>?) {
+        currentPage = page
+
+        if (isRefresh.value == true || isLoading.value == true) {
+            listDiscoverMovie.value = items
+            return
+        }
+
+        if (isLoadMore.value == true) {
+            val list = mutableListOf<Movie>()
+            listDiscoverMovie.value?.let {
+                list.addAll(it)
+            }
+            list.addAll(items ?: return)
+            listDiscoverMovie.value = list
+            return
+        }
+    }
+
+    private fun onLoadFail(throwable: Throwable) {
+        isLoading.value = false
+        isLoadMore.value = false
+        isLoading.value = false
+        isRefresh.value = false
+        loadError.value = throwable.message
     }
 }

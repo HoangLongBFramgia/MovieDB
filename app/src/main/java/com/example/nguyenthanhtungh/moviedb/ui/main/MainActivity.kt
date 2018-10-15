@@ -5,11 +5,10 @@ import android.view.MenuItem
 import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.base.BaseActivity
 import com.example.nguyenthanhtungh.moviedb.ui.favourite.FavouriteFragment
-import com.example.nguyenthanhtungh.moviedb.ui.favourite.SearchFragment
+import com.example.nguyenthanhtungh.moviedb.ui.search.SearchFragment
 import com.example.nguyenthanhtungh.moviedb.ui.home.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<MainViewModel>(), BottomNavigationView.OnNavigationItemSelectedListener {
     override val viewModel: MainViewModel = MainViewModel()
