@@ -7,6 +7,14 @@ import io.reactivex.Single
 
 class MovieLocalDataSource(private val movieDao: MovieDao) : MovieDataSource.LocalDataSource {
 
+    override fun insertMoviesLocal(movie: Movie) {
+        movieDao.insert(movie)
+    }
+
+    override fun getMovieLocal(id: String): Single<Movie> {
+        return movieDao.getMovie(id)
+    }
+
     override fun deleteMovieLocal(id: String) {
         movieDao.deleteMovie(id)
     }

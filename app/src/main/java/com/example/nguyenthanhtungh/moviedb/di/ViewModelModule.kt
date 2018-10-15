@@ -12,6 +12,6 @@ val viewModelModule = module(override = true) {
     viewModel { MainViewModel() }
     viewModel { HomeViewModel(get(), get()) }
     viewModel { FavouriteViewModel() }
-    viewModel { DetailViewModel() }
+    viewModel { DetailViewModel(get(), get()) }
     viewModel { SearchViewModel() }
 }
