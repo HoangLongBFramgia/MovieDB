@@ -5,10 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class EndlessScrollListener(val onLoadMore: () -> Unit) : RecyclerView.OnScrollListener() {
-    var isLoadMore = false
+    var isLoading = false
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
+
         var pastItem = 0
         var visibleItem = 0
         var totalItem = 0
@@ -16,6 +17,7 @@ class EndlessScrollListener(val onLoadMore: () -> Unit) : RecyclerView.OnScrollL
             is LinearLayoutManager -> {
                 (recyclerView.layoutManager as LinearLayoutManager).apply {
                     pastItem = findFirstVisibleItemPosition()
+                    visibleItem=childCount
                     totalItem = itemCount
                 }
             }
@@ -27,9 +29,9 @@ class EndlessScrollListener(val onLoadMore: () -> Unit) : RecyclerView.OnScrollL
                 }
             }
         }
-        if (!isLoadMore && pastItem + visibleItem >= totalItem) {
+        if (!isLoading && pastItem + visibleItem >= totalItem) {
             onLoadMore.invoke()
-            isLoadMore = true
+            isLoading = true
         }
     }
 }

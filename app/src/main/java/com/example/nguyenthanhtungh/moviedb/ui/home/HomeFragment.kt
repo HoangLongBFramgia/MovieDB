@@ -3,6 +3,7 @@ package com.example.nguyenthanhtungh.moviedb.ui.home
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.nguyenthanhtungh.moviedb.BR
 import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.base.BaseFragment
@@ -12,9 +13,11 @@ import com.example.nguyenthanhtungh.moviedb.data.model.Movie
 import com.example.nguyenthanhtungh.moviedb.databinding.FragmentHomeBinding
 import com.example.nguyenthanhtungh.moviedb.util.ITEM_DECORATION
 import com.example.nguyenthanhtungh.moviedb.util.SPAN_COUNT
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
+        SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         const val TAG = "HomeFragment"
@@ -26,13 +29,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     override val bindingVariable: Int = BR.homeViewModel
 
     override fun initComponent(viewDataBinding: FragmentHomeBinding) {
+
         val fragmentHomeAdapter = FragmentHomeAdapter(
                 onItemClick = { goToDetailFragment(it) }
         )
 
-        val decoration = RecyclerItemDecoration(ITEM_DECORATION)
         val endlessScrollListener = EndlessScrollListener { viewModel.onLoadMore() }
-
+        val decoration = RecyclerItemDecoration(ITEM_DECORATION)
         viewDataBinding.apply {
             recyclerHome.apply {
                 adapter = fragmentHomeAdapter
@@ -41,12 +44,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 addOnScrollListener(endlessScrollListener)
             }
         }
+        viewBinding.swipeLayout.setOnRefreshListener(this@HomeFragment)
+
         viewModel.apply {
             listDiscoverMovie.observe(this@HomeFragment, Observer {
                 fragmentHomeAdapter.submitList(it)
             })
             firstLoad()
+
+            isLoading.observe(this@HomeFragment, Observer {
+            })
+
+            isRefresh.observe(this@HomeFragment, Observer {
+                viewBinding.swipeLayout.apply { isRefreshing = it == true }
+            })
+
+            isLoadMore.observe(this@HomeFragment, Observer {
+                if (it == null) return@Observer
+                endlessScrollListener.isLoading = it
+            })
+
+            loadError.observe(this@HomeFragment, Observer {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            })
         }
+    }
+
+    override fun onRefresh() {
+        viewModel.refreshData()
     }
 
     private fun goToDetailFragment(movie: Movie) {
