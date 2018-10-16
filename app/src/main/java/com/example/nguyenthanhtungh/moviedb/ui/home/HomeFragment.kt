@@ -11,9 +11,10 @@ import com.example.nguyenthanhtungh.moviedb.base.EndlessScrollListener
 import com.example.nguyenthanhtungh.moviedb.base.RecyclerItemDecoration
 import com.example.nguyenthanhtungh.moviedb.data.model.Movie
 import com.example.nguyenthanhtungh.moviedb.databinding.FragmentHomeBinding
+import com.example.nguyenthanhtungh.moviedb.ui.detail.DetailFragment
+import com.example.nguyenthanhtungh.moviedb.ui.main.MainActivity
 import com.example.nguyenthanhtungh.moviedb.util.ITEM_DECORATION
 import com.example.nguyenthanhtungh.moviedb.util.SPAN_COUNT
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
@@ -31,7 +32,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     override fun initComponent(viewDataBinding: FragmentHomeBinding) {
 
         val fragmentHomeAdapter = FragmentHomeAdapter(
-                onItemClick = { goToDetailFragment(it) }
+                onItemClick = {
+                    goToDetailFragment(it)
+                }
         )
 
         val endlessScrollListener = EndlessScrollListener { viewModel.onLoadMore() }
@@ -72,7 +75,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     }
 
     private fun goToDetailFragment(movie: Movie) {
-        //todo
-        Toast.makeText(activity, TAG, Toast.LENGTH_SHORT).show()
+        if (activity is MainActivity)
+            (activity as MainActivity).apply {
+                val movieDetailFragment = DetailFragment.newInstance(movie)
+                addFragment(movieDetailFragment,
+                        R.id.activity_main, DetailFragment.TAG, true)
+            }
     }
 }

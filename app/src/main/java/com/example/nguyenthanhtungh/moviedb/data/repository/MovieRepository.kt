@@ -9,6 +9,12 @@ class MovieRepository(private val local: MovieDataSource.LocalDataSource,
                       private val remote: MovieDataSource.RemoteDataSource)
     : MovieDataSource.LocalDataSource, MovieDataSource.RemoteDataSource {
 
+    override fun insertMoviesLocal(movie: Movie)
+            = local.insertMoviesLocal(movie)
+
+    override fun getMovieLocal(id: String): Single<Movie>
+            = local.getMovieLocal(id)
+
     override fun deleteMovieLocal(id: String)
             = local.deleteMovieLocal(id)
 

@@ -7,7 +7,9 @@ import io.reactivex.Single
 interface MovieDataSource {
     interface LocalDataSource {
         fun getListMoviesLocal(): Single<List<Movie>>
+        fun getMovieLocal(id: String) : Single<Movie>
         fun insertListMoviesLocal(list: List<Movie>)
+        fun insertMoviesLocal(movie: Movie)
         fun updateListMoviesLocal(movie: Movie)
         fun deleteMovieLocal(id: String)
     }

@@ -1,20 +1,37 @@
 package com.example.nguyenthanhtungh.moviedb.ui.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import com.example.nguyenthanhtungh.moviedb.BR
 import com.example.nguyenthanhtungh.moviedb.R
+import com.example.nguyenthanhtungh.moviedb.base.BaseFragment
+import com.example.nguyenthanhtungh.moviedb.data.model.Movie
+import com.example.nguyenthanhtungh.moviedb.databinding.FragmentMovieDetailBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class DetailFragment() : Fragment() {
+class DetailFragment() : BaseFragment<FragmentMovieDetailBinding, DetailViewModel>() {
+
     companion object {
+        const val MOVIE = "MOVIE"
         const val TAG = "DetailFragment"
-        fun newInstance() = DetailFragment()
+        fun newInstance(movie: Movie) = DetailFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(MOVIE, movie)
+            }
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false)
+    override val bindingVariable: Int = BR.detailViewModel
+
+    override val viewModel by viewModel<DetailViewModel>()
+
+    override val layoutId: Int = R.layout.fragment_movie_detail
+
+    override fun initComponent(viewDataBinding: FragmentMovieDetailBinding) {
+        arguments?.apply {
+            getParcelable<Movie>(MOVIE)?.apply {
+                viewModel.movie.value = this
+            }
+        }
     }
 }
