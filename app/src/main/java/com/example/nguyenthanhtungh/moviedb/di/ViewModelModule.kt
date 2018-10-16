@@ -11,7 +11,7 @@ import org.koin.dsl.module.module
 val viewModelModule = module(override = true) {
     viewModel { MainViewModel() }
     viewModel { HomeViewModel(get(), get()) }
-    viewModel { FavouriteViewModel() }
+    viewModel { FavouriteViewModel(get(), get()) }
     viewModel { DetailViewModel(get(), get()) }
     viewModel { SearchViewModel() }
 }

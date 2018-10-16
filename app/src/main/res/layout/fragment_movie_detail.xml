@@ -8,6 +8,18 @@
         <import type="android.view.View" />
 
         <variable
+            name="onBackClick"
+            type="android.view.View.OnClickListener">
+
+        </variable>
+
+        <variable
+            name="onFavouriteClick"
+            type="android.view.View.OnClickListener">
+
+        </variable>
+
+        <variable
             name="detailViewModel"
             type="com.example.nguyenthanhtungh.moviedb.ui.detail.DetailViewModel">
 
@@ -48,6 +60,7 @@
             android:layout_width="@dimen/dp_56"
             android:layout_height="@dimen/dp_56"
             android:background="@android:color/transparent"
+            android:onClick="@{onFavouriteClick}"
             android:scaleType="centerInside"
             android:src="@{detailViewModel.isFavourite?@drawable/ic_favourite :@drawable/ic_favourite_border}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,6 +160,7 @@
             android:layout_marginLeft="@dimen/dp_8"
             android:layout_marginTop="@dimen/dp_8"
             android:background="@android:color/transparent"
+            android:onClick="@{onBackClick}"
             android:scaleType="centerInside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

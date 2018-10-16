@@ -1,21 +1,23 @@
 package com.example.nguyenthanhtungh.moviedb.ui.favourite
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.databinding.library.baseAdapters.BR
 import com.example.nguyenthanhtungh.moviedb.R
+import com.example.nguyenthanhtungh.moviedb.base.BaseFragment
+import com.example.nguyenthanhtungh.moviedb.databinding.FragmentFavouriteBinding
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class FavouriteFragment() : Fragment() {
+class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewModel>() {
 
     companion object {
         const val TAG = "FavouriteFragment"
         fun newInstance() = FavouriteFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+    override val bindingVariable: Int = BR.favouriteViewModel
+    override val viewModel by viewModel<FavouriteViewModel>()
+    override val layoutId: Int = R.layout.fragment_favourite
+
+    override fun initComponent(viewDataBinding: FragmentFavouriteBinding) {
+
     }
 }
