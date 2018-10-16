@@ -13,33 +13,35 @@ class DetailViewModel(val genreRepository: GenreRepository,
                       val movieRepository: MovieRepository) : BaseViewModel() {
     val movie = MutableLiveData<Movie>()
     val isFavourite = MutableLiveData<Boolean>()
+    val isFavouriteChange = MutableLiveData<Boolean>()
 
     fun updateFavourite(movie: Movie) {
-        if (isFavourite.value == false) {
-            Observable.create<Unit> { emitter ->
-                emitter.onNext(movieRepository.insertMoviesLocal(movie))
-            }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        isFavourite.value = true
-                    }, {
-                        isFavourite.value = false
-                    })
-            return
-        }
-        if (isFavourite.value == true) {
-            Observable.create<Unit> { emitter ->
-                emitter.onNext(movieRepository.deleteMovieLocal(movie.id))
-            }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        isFavourite.value = false
-                    }, {
-                        isFavourite.value = true
-                    })
-            return
+        when (isFavourite.value) {
+            false -> addDisposable(
+                    Observable.create<Unit> { emitter ->
+                        emitter.onNext(movieRepository.insertMoviesLocal(movie))
+                    }
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally { isFavouriteChange.value = isFavourite.value }
+                            .subscribe({
+                                isFavourite.value = true
+                            }, {
+                                isFavourite.value = false
+                            }))
+
+            true -> addDisposable(
+                    Observable.create<Unit> { emitter ->
+                        emitter.onNext(movieRepository.deleteMovieLocal(movie.id))
+                    }
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doFinally { isFavouriteChange.value = isFavourite.value }
+                            .subscribe({
+                                isFavourite.value = false
+                            }, {
+                                isFavourite.value = true
+                            }))
         }
     }
 

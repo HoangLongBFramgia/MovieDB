@@ -3,6 +3,7 @@ package com.example.nguyenthanhtungh.moviedb.ui.detail
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.nguyenthanhtungh.moviedb.BR
 import com.example.nguyenthanhtungh.moviedb.R
 import com.example.nguyenthanhtungh.moviedb.base.BaseFragment
@@ -48,15 +49,17 @@ class DetailFragment : BaseFragment<FragmentMovieDetailBinding, DetailViewModel>
 
         viewDataBinding.onFavouriteClick = View.OnClickListener {
             viewModel.updateFavourite(movie)
-            if (viewModel.isFavourite.value == true) {
-                Toast.makeText(context, getString(R.string.remove_favourite), Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, getString(R.string.add_favourite), Toast.LENGTH_SHORT).show()
-            }
         }
 
         viewModel.apply {
             checkFavourite(movie)
+
+            isFavouriteChange.observe(this@DetailFragment, Observer {
+                when (it) {
+                    false -> Toast.makeText(context, getString(R.string.remove_favourite), Toast.LENGTH_SHORT).show()
+                    true -> Toast.makeText(context, getString(R.string.add_favourite), Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 }

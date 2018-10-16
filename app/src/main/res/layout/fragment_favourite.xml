@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="favouriteViewModel"
             type="com.example.nguyenthanhtungh.moviedb.ui.favourite.FavouriteViewModel">
@@ -35,6 +37,7 @@
             android:layout_marginEnd="@dimen/dp_8"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_8"
+            android:visibility="@{favouriteViewModel.isLoading? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_favourite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

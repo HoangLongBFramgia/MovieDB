@@ -18,6 +18,5 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
     override val layoutId: Int = R.layout.fragment_favourite
 
     override fun initComponent(viewDataBinding: FragmentFavouriteBinding) {
-
     }
 }
