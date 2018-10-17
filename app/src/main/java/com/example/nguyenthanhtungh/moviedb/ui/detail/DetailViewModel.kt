@@ -23,9 +23,9 @@ class DetailViewModel(val genreRepository: GenreRepository,
                     }
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .doFinally { isFavouriteChange.value = isFavourite.value }
                             .subscribe({
                                 isFavourite.value = true
+                                isFavouriteChange.value = isFavourite.value
                             }, {
                                 isFavourite.value = false
                             }))
@@ -36,9 +36,9 @@ class DetailViewModel(val genreRepository: GenreRepository,
                     }
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .doFinally { isFavouriteChange.value = isFavourite.value }
                             .subscribe({
                                 isFavourite.value = false
+                                isFavouriteChange.value = isFavourite.value
                             }, {
                                 isFavourite.value = true
                             }))
@@ -46,11 +46,12 @@ class DetailViewModel(val genreRepository: GenreRepository,
     }
 
     fun checkFavourite(movie: Movie) {
-        movieRepository.getMovieLocal(movie.id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    isFavourite.value = true
-                }, { isFavourite.value = false })
+        addDisposable(
+                movieRepository.getMovieLocal(movie.id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            isFavourite.value = true
+                        }, { isFavourite.value = false }))
     }
 }
