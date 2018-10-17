@@ -44,38 +44,38 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
                 }
         )
 
+        val decoration = RecyclerItemDecoration(ITEM_DECORATION)
+        val endlessScrollListener = EndlessScrollListener {
+            viewModel.onLoadMore(viewModel.queryString.value ?: "")
+        }
+
+        viewDataBinding.apply {
+            recyclerSearch.apply {
+                adapter = fragmentSearchAdapter
+                layoutManager = GridLayoutManager(context, SPAN_COUNT)
+                addItemDecoration(decoration)
+                addOnScrollListener(endlessScrollListener)
+            }
+        }
+
         (activity as MainActivity).setSupportActionBar(viewDataBinding.toolbar)
 
         viewModel.apply {
             queryString.observe(this@SearchFragment, Observer {
-                val decoration = RecyclerItemDecoration(ITEM_DECORATION)
-                val endlessScrollListener = EndlessScrollListener { viewModel.onLoadMore(it) }
 
-                viewDataBinding.apply {
-                    recyclerSearch.apply {
-                        adapter = fragmentSearchAdapter
-                        layoutManager = GridLayoutManager(context, SPAN_COUNT)
-                        addItemDecoration(decoration)
-                        addOnScrollListener(endlessScrollListener)
-                    }
-                }
+                listSearch.observe(this@SearchFragment, Observer {
+                    fragmentSearchAdapter.submitList(it)
+                })
+                firstLoad(it)
 
-                viewModel.apply {
-                    listSearch.observe(this@SearchFragment, Observer {
-                        fragmentSearchAdapter.submitList(it)
-                    })
-                    firstLoad(it)
+                isLoadMore.observe(this@SearchFragment, Observer {
+                    if (it == null) return@Observer
+                    endlessScrollListener.isLoading = it
+                })
 
-                    isLoadMore.observe(this@SearchFragment, Observer {
-                        if (it == null) return@Observer
-                        endlessScrollListener.isLoading = it
-                    })
-
-                    loadError.observe(this@SearchFragment, Observer {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    })
-                }
-
+                loadError.observe(this@SearchFragment, Observer {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                })
             })
         }
     }
