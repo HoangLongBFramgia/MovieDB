@@ -1,11 +1,13 @@
 package com.example.nguyenthanhtungh.moviedb.di
 
+import android.content.Context
 import com.example.nguyenthanhtungh.moviedb.BuildConfig
 import com.example.nguyenthanhtungh.moviedb.data.source.remote.network.ApiService
 import com.example.nguyenthanhtungh.moviedb.util.API_KEY_PARAM
 import com.example.nguyenthanhtungh.moviedb.util.BASE_URL
 import com.example.nguyenthanhtungh.moviedb.util.TIME_OUT
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import okhttp3.Cache
 import okhttp3.Interceptor
 
 import java.util.concurrent.TimeUnit
@@ -18,9 +20,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val apiModule = module(override = true) {
     single { createHeaderInterceptor() }
-    single { initOkHttpClient(get()) }
+    single { createOkHttpCache(get()) }
+    single { initOkHttpClient(get(), get()) }
     single { initRetrofit(get()) }
     single { getApiService(get()) }
+}
+
+fun createOkHttpCache(context: Context): Cache {
+    val size = (10 * 1024 * 1024).toLong()
+    return Cache(context.cacheDir, size)
 }
 
 fun createLoggingInterceptor(): Interceptor {
@@ -30,8 +38,9 @@ fun createLoggingInterceptor(): Interceptor {
     return logging
 }
 
-fun initOkHttpClient(header: Interceptor): OkHttpClient {
+fun initOkHttpClient(cache: Cache, header: Interceptor): OkHttpClient {
     val builder = OkHttpClient.Builder()
+            .cache(cache)
             .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
