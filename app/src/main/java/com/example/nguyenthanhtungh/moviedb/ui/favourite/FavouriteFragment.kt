@@ -77,7 +77,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
         if (activity is MainActivity)
             (activity as MainActivity).apply {
                 val movieDetailFragment = DetailFragment.newInstance(it)
-                addFragment(movieDetailFragment,
+                replaceFragment(movieDetailFragment,
                         R.id.frame_layout, DetailFragment.TAG, true)
             }
     }

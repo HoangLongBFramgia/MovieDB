@@ -18,7 +18,7 @@ class HomeViewModel(val genreRepository: GenreRepository,
     val listDiscoverMovie = MutableLiveData<List<Movie>>()
     var currentPage = 0
 
-    fun loadListMovie(page: Int) {
+    private fun loadListMovie(page: Int) {
         addDisposable(
                 movieRepository.getListDiscover(page)
                         .subscribeOn(Schedulers.io())
@@ -77,10 +77,6 @@ class HomeViewModel(val genreRepository: GenreRepository,
     }
 
     private fun onLoadFail(throwable: Throwable) {
-        isLoading.value = false
-        isLoadMore.value = false
-        isLoading.value = false
-        isRefresh.value = false
         loadError.value = throwable.message
     }
 }
