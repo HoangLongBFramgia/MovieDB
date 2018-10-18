@@ -37,9 +37,14 @@ class HomeViewModel(val genreRepository: GenreRepository,
         )
     }
 
+    private fun isFirst() = currentPage == 0
+            && (listDiscoverMovie.value == null || listDiscoverMovie.value?.size == 0)
+
     fun firstLoad() {
-        isLoading.value = true
-        loadListMovie(1)
+        if (isFirst()) {
+            isLoading.value = true
+            loadListMovie(1)
+        }
     }
 
     fun refreshData() {
