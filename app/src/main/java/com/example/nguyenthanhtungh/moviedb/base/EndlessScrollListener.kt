@@ -30,8 +30,8 @@ class EndlessScrollListener(val onLoadMore: () -> Unit) : RecyclerView.OnScrollL
             }
         }
         if (!isLoading && pastItem + visibleItem >= totalItem) {
-            onLoadMore.invoke()
             isLoading = true
+            onLoadMore.invoke()
         }
     }
 }

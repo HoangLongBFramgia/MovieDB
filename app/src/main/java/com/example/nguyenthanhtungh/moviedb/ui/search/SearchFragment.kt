@@ -106,7 +106,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         if (activity is MainActivity)
             (activity as MainActivity).apply {
                 val movieDetailFragment = DetailFragment.newInstance(movie)
-                addFragment(movieDetailFragment,
+                replaceFragment(movieDetailFragment,
                         R.id.frame_layout, DetailFragment.TAG, true)
             }
     }
