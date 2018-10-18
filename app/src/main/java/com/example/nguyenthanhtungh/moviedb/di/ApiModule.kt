@@ -11,6 +11,7 @@ import okhttp3.Interceptor
 import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -22,12 +23,20 @@ val apiModule = module(override = true) {
     single { getApiService(get()) }
 }
 
+fun createLoggingInterceptor(): Interceptor {
+    val logging = HttpLoggingInterceptor()
+    logging.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+    else HttpLoggingInterceptor.Level.NONE
+    return logging
+}
+
 fun initOkHttpClient(header: Interceptor): OkHttpClient {
     val builder = OkHttpClient.Builder()
             .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .addInterceptor(header)
+            .addInterceptor(createLoggingInterceptor())
     return builder.build()
 }
 
