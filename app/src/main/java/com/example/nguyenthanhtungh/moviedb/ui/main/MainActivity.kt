@@ -19,7 +19,9 @@ class MainActivity : BaseActivity<MainViewModel>(), BottomNavigationView.OnNavig
 
     override fun initComponent(savedInstanceState: Bundle?) {
         bottom_navigation.setOnNavigationItemSelectedListener(this)
-        replaceFragment(HomeFragment.newInstance(), R.id.frame_layout, HomeFragment.TAG, false)
+        if (savedInstanceState == null) {
+            replaceFragment(HomeFragment.newInstance(), R.id.frame_layout, HomeFragment.TAG, false)
+        }
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {

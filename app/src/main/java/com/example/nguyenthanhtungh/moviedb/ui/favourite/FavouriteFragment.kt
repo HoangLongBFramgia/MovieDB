@@ -50,7 +50,10 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
         viewModel.apply {
 
             listFavouriteMovie.observe(this@FavouriteFragment, Observer {
-                fragmentFavouriteAdapter.submitList(it)
+                when (it.size) {
+                    0 -> Toast.makeText(context, getString(R.string.no_favourite_movie), Toast.LENGTH_SHORT).show()
+                    else -> fragmentFavouriteAdapter.submitList(it)
+                }
             })
 
             getData()
@@ -75,7 +78,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             (activity as MainActivity).apply {
                 val movieDetailFragment = DetailFragment.newInstance(it)
                 addFragment(movieDetailFragment,
-                        R.id.activity_main, DetailFragment.TAG, true)
+                        R.id.frame_layout, DetailFragment.TAG, true)
             }
     }
 }

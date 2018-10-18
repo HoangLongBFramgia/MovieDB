@@ -64,7 +64,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             queryString.observe(this@SearchFragment, Observer {
 
                 listSearch.observe(this@SearchFragment, Observer {
-                    fragmentSearchAdapter.submitList(it)
+                    when (it.size) {
+                        0 -> Toast.makeText(context, getString(R.string.no_search_result), Toast.LENGTH_SHORT).show()
+                        else -> fragmentSearchAdapter.submitList(it)
+                    }
                 })
                 firstLoad(it)
 
@@ -88,11 +91,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.queryString.value = query
+                searchItem.collapseActionView()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return true
+                return false
             }
 
         })
@@ -103,7 +107,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
             (activity as MainActivity).apply {
                 val movieDetailFragment = DetailFragment.newInstance(movie)
                 addFragment(movieDetailFragment,
-                        R.id.activity_main, DetailFragment.TAG, true)
+                        R.id.frame_layout, DetailFragment.TAG, true)
             }
     }
 }
