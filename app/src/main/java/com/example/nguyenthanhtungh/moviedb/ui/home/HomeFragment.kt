@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
             (activity as MainActivity).apply {
                 val movieDetailFragment = DetailFragment.newInstance(movie)
                 addFragment(movieDetailFragment,
-                        R.id.activity_main, DetailFragment.TAG, true)
+                        R.id.frame_layout, DetailFragment.TAG, true)
             }
     }
 }

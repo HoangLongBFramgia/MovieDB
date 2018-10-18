@@ -6,5 +6,7 @@
     <string name="overview_title">Overview</string>
     <string name="remove_favourite">Remove from favourite</string>
     <string name="add_favourite">Add to favourite</string>
+    <string name="no_search_result">No result found!</string>
+    <string name="no_favourite_movie">No favourite movie!</string>
 
 </resources>
