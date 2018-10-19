@@ -52,8 +52,8 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding, FavouriteViewMo
             listFavouriteMovie.observe(this@FavouriteFragment, Observer {
                 when (it.size) {
                     0 -> Toast.makeText(context, getString(R.string.no_favourite_movie), Toast.LENGTH_SHORT).show()
-                    else -> fragmentFavouriteAdapter.submitList(it)
                 }
+                fragmentFavouriteAdapter.submitList(it)
             })
 
             getData()
