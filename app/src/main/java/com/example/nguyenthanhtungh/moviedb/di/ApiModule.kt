@@ -19,9 +19,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val apiModule = module(override = true) {
-    single { createHeaderInterceptor() }
+    single(name = "header") { createHeaderInterceptor() }
+    single(name = "logging") { createLoggingInterceptor() }
     single { createOkHttpCache(get()) }
-    single { initOkHttpClient(get(), get()) }
+    single { initOkHttpClient(get(), get(name = "header"), get(name = "logging")) }
     single { initRetrofit(get()) }
     single { getApiService(get()) }
 }
@@ -38,14 +39,14 @@ fun createLoggingInterceptor(): Interceptor {
     return logging
 }
 
-fun initOkHttpClient(cache: Cache, header: Interceptor): OkHttpClient {
+fun initOkHttpClient(cache: Cache, header: Interceptor, logging: Interceptor): OkHttpClient {
     val builder = OkHttpClient.Builder()
             .cache(cache)
             .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .writeTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .addInterceptor(header)
-            .addInterceptor(createLoggingInterceptor())
+            .addInterceptor(logging)
     return builder.build()
 }
 
