@@ -24,9 +24,11 @@ class HomeViewModel(val genreRepository: GenreRepository,
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally {
+                            if (isLoadMore.value == true) {
+                                isLoadMore.value = false
+                            }
                             isLoading.value = false
                             isRefresh.value = false
-                            isLoadMore.value = false
                         }
                         .subscribe({
                             onLoadSuccess(page, it.listMovie)
